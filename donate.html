@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Matruchhaya | Donate </title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .required::after {
+      content: " *";
+      color: red;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    .hidden {
+      display: none;
+    }
+    img {
+      max-width: 200px;
+      display: block;
+      margin: 0 auto 20px;
+    }
+    h2 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="https://i0.wp.com/matruchhaya.org.au/wp-content/uploads/2025/08/MC-Logo.webp?w=545&ssl=1" alt="Matruchhaya Logo">
+  <h2>Support victims and survivors of domestic violence</h2>
+
+  <form action="matruchhayaindianwomensrefugefordo--testing.sandbox.my.salesforce-sites.com/services/apexrest/w_pay/charge" method="POST">
+      
+    <!-- Hidden Info --> 
+    <input type="hidden" id="oid" name="oid" value="00D9j000007VBpZ">
+    <input type="hidden" id="gatewayname" name="gatewayname" value="payway">
+    <input type="hidden" id="redirectURL" name="redirectURL" value="https://atlas-ezycharge.netlify.app/receipt?">
+    <input type="hidden" id="cancelURL" name="cancelURL" value="https://atlas-ezycharge.netlify.app/receipt?">
+    
+    <!-- Contact Info -->
+    <label for="firstname" class="required">First Name</label>
+    <input type="text" name="firstname" id="firstname" required>
+
+    <label for="lastname" class="required">Last Name</label>
+    <input type="text" name="lastname" id="lastname" required>
+
+    <label for="email" class="required">Email Address</label>
+    <input type="email" name="email" id="email" required>
+
+    <!-- Payment Info -->
+    <label for="amount" class="required">Amount ($)</label>
+    <input type="number" name="amount" id="amount" step="0.01" required>
+
+    <label for="paymentType" class="required">Payment Type</label>
+    <select name="paymentType" id="paymentType" required>
+      <option value="onetime">One-Time</option>
+      <option value="recurring">Recurring</option>
+    </select>
+
+    <!-- Recurring Frequency (only visible if recurring selected) -->
+    <div id="recurringOptions" class="hidden">
+      <label for="frequency" class="required">Recurring Frequency</label>
+      <select name="frequency" id="frequency">
+        <option value="Weekly">Weekly</option>
+        <option value="Fortnightly">Fortnightly</option>
+        <option value="Monthly">Monthly</option>
+        <option value="Quarterly">Quarterly</option>
+        <option value="Half Yearly">Half Yearly</option>
+        <option value="Yearly">Yearly</option>
+      </select>
+    </div>
+
+    <!-- Payment Method -->
+    <label for="paymentmethod" class="required">Payment Method</label>
+    <select name="paymentmethod" id="paymentmethod" required>
+      <option value="Credit Card">Credit Card</option>
+      <option value="Direct Debit">Direct Debit</option>
+    </select>
+    
+    <!-- Submit Button -->
+    <button type="submit">Donate</button>
+  </form>
+
+  <script>
+    const paymentTypeSelect = document.getElementById('paymentType');
+    const recurringOptions = document.getElementById('recurringOptions');
+    const frequencySelect = document.getElementById('frequency');
+
+    paymentTypeSelect.addEventListener('change', function() {
+      if (this.value === 'recurring') {
+        recurringOptions.classList.remove('hidden');
+        frequencySelect.setAttribute('required', 'required');
+      } else {
+        recurringOptions.classList.add('hidden');
+        frequencySelect.removeAttribute('required');
+      }
+    });
+  </script>
+
+</body>
+</html>
