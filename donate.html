@@ -105,7 +105,7 @@
         </div>
         <div class="column">
           <label for="startdate" class="required">Pick your start date</label>
-          <input type="date" name="startdate1" id="startdate1" required>
+          <input type="date" name="startdate" id="startdate" required>
         </div>
       </div>
 
@@ -124,7 +124,7 @@
   <script>    
     // Get today's date in YYYY-MM-DD format
     const today = new Date().toISOString().split('T')[0];
-    document.getElementById('startdate1').value = today;
+    document.getElementById('startdate').value = today;
 
     const paymentTypeSelect = document.getElementById('chargetype');
     const recurringOptions = document.getElementById('recurringOptions');
