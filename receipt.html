@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Thank You – Payment Receipt</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 6px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2E8B57;
+      margin-bottom: 10px;
+    }
+
+    .logo {
+      max-width: 150px;
+      display: block;
+      margin: 0 auto 20px;
+    }
+
+    .section {
+      margin-top: 20px;
+    }
+
+    .section h2 {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    .section p {
+      margin: 8px 0;
+    }
+
+    .half {
+      width: 48%;
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .note {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #555;
+      text-align: center;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    #retryBtn a {
+      color: #d9534f;
+      text-decoration: underline;
+    }
+
+    #retryBtn {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body onload="afterPageLoad()">
+
+  <div class="container">
+    <img src="https://i0.wp.com/matruchhaya.org.au/wp-content/uploads/2025/08/MC-Logo.webp?w=545&ssl=1" alt="Matruchhaya Logo" class="logo">
+    <h1>Thank You for Your Payment</h1>
+
+    <div class="section">
+      <h2>Receipt Summary</h2>
+      <p><strong>Payment ID:</strong> <span id="paymentId"></span></p>
+      <p><strong>Status:</strong> <span id="paymentStatus"></span></p>
+      <p id="amnt"><strong>Amount:</strong> <span id="amount"></span></p>
+      <p><strong>Response:</strong> <span id="paymentResponse"></span></p>
+    </div>
+
+    <div class="section hidden" id="period">
+      <h2>Recurring Payment Info</h2>
+      <p><strong>Installment Frequency:</strong> <span id="installPeriod"></span></p>
+    </div>
+
+    <div class="section hidden" id="establishdate">
+      <p><strong>Start Date:</strong> <span id="establishmentDate"></span></p>
+    </div>
+
+    <div class="section hidden" id="nextdate">
+      <p><strong>Next Installment Date:</strong> <span id="nextInstallmentDate"></span></p>
+    </div>
+
+    <div id="retryBtn" class="hidden">
+      <h2>Payment Issue?</h2>
+      <ul></ul>
+    </div>
+
+    <div class="note">
+      A confirmation email has been sent to your inbox. <br>
+      If you have questions, please contact our support team.
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    function afterPageLoad(){
+        var ref = window.location.search; 
+        var query_string = ref.split('reference=');
+
+        try {
+            var ref_obj = atob(decodeURIComponent(query_string[1]));
+            ref_obj = JSON.parse(ref_obj); 
+            console.log(ref_obj); 
+
+            document.getElementById("paymentId").innerHTML = ref_obj.paymentId;
+            document.getElementById("paymentStatus").innerHTML = ref_obj.paymentStatus;
+
+            const amt = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(ref_obj.amount);
+            document.getElementById("amount").innerHTML = amt;
+
+            document.getElementById("paymentResponse").innerHTML = ref_obj.paymentResponse;
+
+            if(ref_obj.retryURL){
+                document.getElementById("retryBtn").style.display = "block";
+                document.querySelector("#retryBtn ul").innerHTML = "<li><a href='" + ref_obj.retryURL + "'>Retry Payment</a></li>";
+            }
+
+            if(ref_obj.installPeriod){
+                document.getElementById("period").style.display = "block";
+                document.getElementById("installPeriod").innerHTML = ref_obj.installPeriod; 
+                document.getElementById("amnt").classList.add("half");
+            }
+
+            if(ref_obj.establishmentDate){
+                document.getElementById("establishdate").style.display = "block";
+                document.getElementById("establishmentDate").innerHTML = ref_obj.establishmentDate; 
+            }
+
+            if(ref_obj.nextInstallmentDate){
+                document.getElementById("nextdate").style.display = "block";
+                document.getElementById("nextInstallmentDate").innerHTML = ref_obj.nextInstallmentDate; 
+            }
+        } catch (error) {
+            console.error("Failed to decode payment reference:", error);
+        }
+    }
+  </script>
+
+</body>
+</html>
