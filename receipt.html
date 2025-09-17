@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Thank You – Payment Receipt</title>
+  <title>Matruchhaya | Receipt</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -19,16 +19,23 @@
       border-radius: 6px;
     }
 
-    h1 {
-      text-align: center;
-      color: #2E8B57;
-      margin-bottom: 10px;
-    }
-
     .logo {
       max-width: 150px;
       display: block;
       margin: 0 auto 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    h1.success {
+      color: #2E8B57;
+    }
+
+    h1.error {
+      color: #d9534f;
     }
 
     .section {
@@ -77,89 +84,143 @@
     .hidden {
       display: none;
     }
+
+    .error-message {
+      color: #d9534f;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .success-section, .error-section {
+      display: none;
+    }
+
+    .icon {
+      font-size: 40px;
+      text-align: center;
+    }
+
+    .icon.success {
+      color: #2E8B57;
+    }
+
+    .icon.error {
+      color: #d9534f;
+    }
   </style>
 </head>
 <body onload="afterPageLoad()">
 
   <div class="container">
     <img src="https://i0.wp.com/matruchhaya.org.au/wp-content/uploads/2025/08/MC-Logo.webp?w=545&ssl=1" alt="Matruchhaya Logo" class="logo">
-    <h1>Thank You for Your Payment</h1>
 
-    <div class="section">
-      <h2>Receipt Summary</h2>
-      <p><strong>Payment ID:</strong> <span id="paymentId"></span></p>
-      <p><strong>Status:</strong> <span id="paymentStatus"></span></p>
-      <p id="amnt"><strong>Amount:</strong> <span id="amount"></span></p>
-      <p><strong>Response:</strong> <span id="paymentResponse"></span></p>
+    <!-- Success UI -->
+    <div class="success-section" id="successUI">
+      <h1 class="success">Thank You for Your Gift</h1>
+
+      <div class="section">
+        <h2>Receipt Summary</h2>
+        <p><strong>Payment ID:</strong> <span id="paymentId"></span></p>
+        <p><strong>Status:</strong> <span id="paymentStatus"></span></p>
+        <p id="amnt"><strong>Amount:</strong> <span id="amount"></span></p>
+        <p><strong>Response:</strong> <span id="paymentResponse"></span></p>
+      </div>
+
+      <div class="section hidden" id="period">
+        <h2>Recurring Gift Info</h2>
+        <p><strong>Frequency:</strong> <span id="installPeriod"></span></p>
+      </div>
+
+      <div class="section hidden" id="establishdate">
+        <p><strong>Start Date:</strong> <span id="establishmentDate"></span></p>
+      </div>
+
+      <div class="section hidden" id="nextdate">
+        <p><strong>Next Installment Date:</strong> <span id="nextInstallmentDate"></span></p>
+      </div>
+
+      <div class="note">
+        We have sent the receipt to your inbox. <br>
+        If you have questions, please contact our support team.
+      </div>
     </div>
 
-    <div class="section hidden" id="period">
-      <h2>Recurring Payment Info</h2>
-      <p><strong>Installment Frequency:</strong> <span id="installPeriod"></span></p>
-    </div>
+    <!-- Error UI -->
+    <div class="error-section" id="errorUI">
+      <div class="icon error">⚠️</div>
+      <div class="error-message" id="errorMsg">Your donation could not be processed</div>
+      <div class="note">
+        <p><strong>Reason:</strong> <span id="paymentResponseErr"></span></p>
+      </div>
 
-    <div class="section hidden" id="establishdate">
-      <p><strong>Start Date:</strong> <span id="establishmentDate"></span></p>
-    </div>
-
-    <div class="section hidden" id="nextdate">
-      <p><strong>Next Installment Date:</strong> <span id="nextInstallmentDate"></span></p>
-    </div>
-
-    <div id="retryBtn" class="hidden">
-      <h2>Payment Issue?</h2>
-      <ul></ul>
-    </div>
-
-    <div class="note">
-      A confirmation email has been sent to your inbox. <br>
-      If you have questions, please contact our support team.
+      <div id="retryBtn">
+        <ul></ul>
+      </div>
     </div>
   </div>
 
   <script type="text/javascript">
-    function afterPageLoad(){
-        var ref = window.location.search; 
-        var query_string = ref.split('reference=');
+    function afterPageLoad() {
+      const ref = window.location.search;
+      const query_string = ref.split('reference=');
 
-        try {
-            var ref_obj = atob(decodeURIComponent(query_string[1]));
-            ref_obj = JSON.parse(ref_obj); 
-            console.log(ref_obj); 
+      try {
+        let ref_obj = atob(decodeURIComponent(query_string[1]));
+        ref_obj = JSON.parse(ref_obj);
+        console.log(JSON.stringify(ref_obj));
+        const hasValidAmount = !isNaN(ref_obj.amount) && ref_obj.amount > 0;
+        const hasPaymentId = ref_obj.paymentId && ref_obj.paymentId !== "undefined";
+        const isPaymentSuccess = ref_obj.paymentStatus && ref_obj.paymentStatus.toLowerCase() === "payment approved";
 
-            document.getElementById("paymentId").innerHTML = ref_obj.paymentId;
-            document.getElementById("paymentStatus").innerHTML = ref_obj.paymentStatus;
+        if (hasValidAmount && hasPaymentId && isPaymentSuccess) {
+          // Show success section
+          document.getElementById("successUI").style.display = "block";
+          document.getElementById("paymentId").innerHTML = ref_obj.paymentId;
+          document.getElementById("paymentStatus").innerHTML = ref_obj.paymentStatus;
 
-            const amt = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(ref_obj.amount);
-            document.getElementById("amount").innerHTML = amt;
+          const amt = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(ref_obj.amount);
+          document.getElementById("amount").innerHTML = amt;
 
-            document.getElementById("paymentResponse").innerHTML = ref_obj.paymentResponse;
+          document.getElementById("paymentResponse").innerHTML = ref_obj.paymentResponse;
 
-            if(ref_obj.retryURL){
-                document.getElementById("retryBtn").style.display = "block";
-                document.querySelector("#retryBtn ul").innerHTML = "<li><a href='" + ref_obj.retryURL + "'>Retry Payment</a></li>";
-            }
+          if (ref_obj.retryURL) {
+            document.getElementById("retryBtn").style.display = "block";
+            document.querySelector("#retryBtn ul").innerHTML = "<li><a href='" + ref_obj.retryURL + "'>Retry Payment</a></li>";
+          }
 
-            if(ref_obj.installPeriod){
-                document.getElementById("period").style.display = "block";
-                document.getElementById("installPeriod").innerHTML = ref_obj.installPeriod; 
-                document.getElementById("amnt").classList.add("half");
-            }
+          if (ref_obj.installPeriod) {
+            document.getElementById("period").style.display = "block";
+            document.getElementById("installPeriod").innerHTML = ref_obj.installPeriod;
+            document.getElementById("amnt").classList.add("half");
+          }
 
-            if(ref_obj.establishmentDate){
-                document.getElementById("establishdate").style.display = "block";
-                document.getElementById("establishmentDate").innerHTML = ref_obj.establishmentDate; 
-            }
+          if (ref_obj.establishmentDate) {
+            document.getElementById("establishdate").style.display = "block";
+            document.getElementById("establishmentDate").innerHTML = ref_obj.establishmentDate;
+          }
 
-            if(ref_obj.nextInstallmentDate){
-                document.getElementById("nextdate").style.display = "block";
-                document.getElementById("nextInstallmentDate").innerHTML = ref_obj.nextInstallmentDate; 
-            }
-        } catch (error) {
-            console.error("Failed to decode payment reference:", error);
+          if (ref_obj.nextInstallmentDate) {
+            document.getElementById("nextdate").style.display = "block";
+            document.getElementById("nextInstallmentDate").innerHTML = ref_obj.nextInstallmentDate;
+          }
+
+        } else {
+          // Show error section
+          document.getElementById("errorUI").style.display = "block";
+          document.getElementById("paymentResponseErr").innerText = ref_obj.paymentResponse || "An unexpected error occurred.";
+
+          if (ref_obj.retryURL) {
+            document.getElementById("retryBtn").style.display = "block";
+            document.querySelector("#retryBtn ul").innerHTML = "<li><a href='" + ref_obj.retryURL + "'>Retry Payment</a></li>";
+          }
         }
+      } catch (error) {
+        document.getElementById("errorUI").style.display = "block";
+        document.getElementById("paymentResponseErr").innerText = "Invalid or missing receipt data.";
+        console.error("Failed to decode payment reference:", error);
+      }
     }
   </script>
-
 </body>
 </html>
