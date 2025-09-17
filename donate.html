@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Matruchhaya | Donate </title>
+  <title>Matruchhaya | Donate</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -38,6 +38,17 @@
     h2 {
       text-align: center;
     }
+
+    /* Two-column layout for frequency and start date */
+    .two-column {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .two-column .column {
+      flex: 1;
+    }
   </style>
 </head>
 <body>
@@ -67,40 +78,53 @@
     <label for="amount" class="required">Amount ($)</label>
     <input type="number" name="amount" id="amount" step="0.01" required>
 
-    <label for="paymentType" class="required">Payment Type</label>
-    <select name="paymentType" id="paymentType" required>
+    <label for="chargetype" class="required">Gift Type</label>
+    <select name="chargetype" id="chargetype" required>
       <option value="onetime">One-Time</option>
       <option value="recurring">Recurring</option>
     </select>
 
     <!-- Recurring Frequency (only visible if recurring selected) -->
     <div id="recurringOptions" class="hidden">
-      <label for="frequency" class="required">Recurring Frequency</label>
-      <select name="frequency" id="frequency">
-        <option value="Weekly">Weekly</option>
-        <option value="Fortnightly">Fortnightly</option>
-        <option value="Monthly">Monthly</option>
-        <option value="Quarterly">Quarterly</option>
-        <option value="Half Yearly">Half Yearly</option>
-        <option value="Yearly">Yearly</option>
+
+      <div class="two-column">
+        <div class="column">
+          <label for="transactionperiod" class="required">How Often?</label>
+          <select name="transactionperiod" id="transactionperiod">
+            <option value="Weekly">Weekly</option>
+            <option value="Fortnightly">Fortnightly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Half Yearly">Half Yearly</option>
+            <option value="Yearly">Yearly</option>
+          </select>
+        </div>
+        <div class="column">
+          <label for="startdate" class="required">Pick your start date</label>
+          <input type="date" name="startdate" id="startdate" required>
+        </div>
+      </div>
+
+      <!-- Payment Method -->
+      <label for="paymentmethod" class="required">Preferred way to give</label>
+      <select name="paymentmethod" id="paymentmethod" required>
+        <option value="Credit Card">Credit Card</option>
+        <option value="Direct Debit">Direct Debit</option>
       </select>
     </div>
-
-    <!-- Payment Method -->
-    <label for="paymentmethod" class="required">Payment Method</label>
-    <select name="paymentmethod" id="paymentmethod" required>
-      <option value="Credit Card">Credit Card</option>
-      <option value="Direct Debit">Direct Debit</option>
-    </select>
     
     <!-- Submit Button -->
     <button type="submit">Donate</button>
   </form>
 
-  <script>
-    const paymentTypeSelect = document.getElementById('paymentType');
+  <script>    
+    // Get today's date in YYYY-MM-DD format
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('startdate').value = today;
+
+    const paymentTypeSelect = document.getElementById('chargetype');
     const recurringOptions = document.getElementById('recurringOptions');
-    const frequencySelect = document.getElementById('frequency');
+    const frequencySelect = document.getElementById('transactionperiod');
 
     paymentTypeSelect.addEventListener('change', function() {
       if (this.value === 'recurring') {
