@@ -3,46 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <title>Matruchhaya | Donate</title>
+  
+  <!-- ✅ Viewport for mobile responsiveness -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
     }
+
     form {
       max-width: 400px;
       margin: auto;
     }
+
     label {
       display: block;
       margin-top: 15px;
       font-weight: bold;
     }
+
     .required::after {
       content: " *";
       color: red;
     }
+
     input, select, button {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
       box-sizing: border-box;
+      font-size: 16px; /* ✅ Prevent iOS zoom on focus */
     }
+
     button {
       cursor: pointer;
+      font-size: 16px;
     }
+
     .hidden {
       display: none;
     }
+
     img {
       max-width: 200px;
       display: block;
       margin: 0 auto 20px;
     }
+
     h2 {
       text-align: center;
     }
 
-    /* Two-column layout for frequency and start date */
+    /* ✅ Two-column layout */
     .two-column {
       display: flex;
       gap: 10px;
@@ -51,6 +65,17 @@
 
     .two-column .column {
       flex: 1;
+    }
+
+    /* ✅ Responsive behavior on smaller screens */
+    @media (max-width: 600px) {
+      .two-column {
+        flex-direction: column;
+      }
+
+      body {
+        padding: 10px;
+      }
     }
   </style>
 </head>

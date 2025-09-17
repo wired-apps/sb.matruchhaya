@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matruchhaya | Receipt</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f9f9f9;
       padding: 30px;
+      margin: 0;
     }
 
     .container {
@@ -21,6 +23,7 @@
 
     .logo {
       max-width: 150px;
+      width: 100%;
       display: block;
       margin: 0 auto 20px;
     }
@@ -107,6 +110,22 @@
 
     .icon.error {
       color: #d9534f;
+    }
+
+    /* ✅ Mobile responsiveness */
+    @media (max-width: 600px) {
+      .half {
+        width: 100%;
+        display: block;
+      }
+
+      .container {
+        padding: 20px;
+      }
+
+      .logo {
+        max-width: 120px;
+      }
     }
   </style>
 </head>
