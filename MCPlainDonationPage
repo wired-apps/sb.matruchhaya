@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      /* CSS styles for form elements */
+      label {
+        display: block;
+        margin-top: 10px;
+      }
+
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-top: 6px;
+        margin-bottom: 16px;
+      }
+
+      .form-group {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        gap: 16px;
+      }
+
+      input[type="submit"] {
+        background-color: green;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+      }
+    .hidden {
+      display: none;
+    }
+    
+    </style> 
+  </head>
+  <body>
+    <form action="https://matruchhayaindianwomensrefugefordo.my.salesforce-sites.com/services/apexrest/w_pay/charge" method="POST">
+        
+		<div class="form-group">
+      <label for="oid">Organisation Id(Required)<input type="text" id="oid" name="oid" value="00DQE0000083Boj" required="true"></label>
+      <label for="environment">Environment(Required)<input type="text" id="environment" name="environment"
+          value="NPSP" required="true"></label>
+          <label for="redirectURL">Redirect URL(Navigate to a Matruchhaya branding page)<input type="text" id="redirectURL" name="redirectURL"
+              value="https://wired-apps.github.io/sb.matruchhaya/receipt?" ></label>
+        <label for="firstname">
+          <i class="fa fa-user"></i> First Name (Required)<input type="text" id="firstname" name="firstname" placeholder="" value="" required="true">
+        </label>
+        <label for="lastname">
+          <i class="fa fa-user"></i> Last Name(Required) <input type="text" id="lastname" name="lastname" placeholder="" value="" required="true">
+        </label>
+        <label for="email">
+          <i class="fa fa-envelope"></i> Email (Required)<input type="text" id="email" name="email" placeholder="" value="" required="true">
+        </label>
+        <label for="paymentprocessor">Choose payment gateway: (Required)<select name="paymentprocessor" id="paymentprocessor" required="true">
+            <option value="">None</option>
+            <option value="payway" selected>PayWay</option>
+            <option value="ezidebit">Ezidebit</option>
+            <option value="paypal">PayPal</option>
+            <option value="stripe">Stripe</option>1 
+            <option value="nab_transact">NAB</option>
+            <option value="bambora">Bambora</option>
+            <option value="simplify">Simplify</option>
+            <option value="directdebit au">Direct Debit AU</option>
+          </select>
+        </label>
+        <label for="chargetype">Type (Required)<select name="chargetype" id="chargetype" required="true">
+            <option value="onetime" selected>Only Once</option>
+            <option value="recurring" >Periodic</option>
+          </select>
+        </label>
+        
+        <label for="amount">Amount (Required)<input type="text" id="amount" name="amount" value="" required="true">
+        </label>
+        <!-- transactionperiod installmentperiod -->
+      <div id="recurringOptions" class="hidden">
+        <label for="transactionperiod">Frequency (Required if Recurring)<select name="transactionperiod" required="true"
+            id="transactionperiod ">
+            <option value="Weekly">Weekly</option>
+            <option value="Fortnightly">Fortnightly</option>
+            <option value="Monthly" selected>Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Half Yearly">Half Yearly</option>
+            <option value="Yearly">Yearly</option>
+          </select>
+        </label>
+        <label for="startdate">Payment Start Date (Required if Recurring)<input type="date" id="startdate" name="startdate"
+            value="">
+        </label>
+        <label for="paymentmethod">Payment Method (Required if Recurring)<select name="paymentmethod" id="paymentmethod">
+            <option value="Credit Card" selected>Credit Card</option>
+            <option value="Direct Debit" >Direct Debit</option>
+          </select>
+        </label>
+      </div>
+        <label for="OrganisationName">Organisation Name <input type="text" id="organisationName" name="organisationName"
+            value="" />
+        </label>
+        <label for="phone">
+          <i class="fa fa-phone"></i> Contact Phone <input type="text" id="phone" name="phone" placeholder="" value="">
+        </label>
+        <label for="adr">
+          <i class="fa fa-address-card-o"></i> Mailing Street <input type="text" id="mailingstreet" name="mailingstreet" placeholder="" value="">
+        </label>
+        <label for="city">
+          <i class="fa fa-institution"></i> Mailing City <input type="text" id="mailingcity" name="mailingcity" placeholder="" value=" ">
+        </label>
+        <label for="state">Mailing State <input type="text" id="mailingstate" name="mailingstate" placeholder="" value="">
+        </label>
+        <label for="zip">Mailing Country <input type="text" id="mailingcountry" name="mailingcountry" placeholder="" value="">
+        </label>
+        <label for="zip">Mailing Zip <input type="text" id="mailingpostalCode" name="mailingpostalCode" placeholder="" value="">
+        </label>
+        
+        <label for="campaignId">Campaign Id <input type="text" id="campaignid" name="campaignid" value="" /></label>
+        <label for="gauordesignationid">GAU Id <input type="text" id="gauordesignationid" name="gauordesignationid" value="" /></label>
+
+      </div>
+      <div class="form-group">
+        
+        <label for="adr">
+          <i class="fa fa-address-card-o"></i>Company Billing Street <input type="text" id="billingstreet" name="billingstreet"
+            placeholder="" value="">
+        </label>
+        <label for="city">
+          <i class="fa fa-institution"></i>Company Billing City <input type="text" id="billingcity" name="billingcity" placeholder=""
+            value=" ">
+        </label>
+        <label for="state">Company Billing State <input type="text" id="billingstate" name="billingstate" placeholder=""
+            value="">
+        </label>
+        <label for="zip">Company Billing Country <input type="text" id="billingcountry" name="billingcountry" placeholder=""
+            value="">
+        </label>
+        <label for="zip">Company Billing Zip <input type="text" id="billingpostalCode" name="billingpostalCode" placeholder=""
+            value="">
+        </label>
+        
+        <label for="cancelURL">Cancel URL<input type="text" id="cancelURL" name="cancelURL"
+            value="https://atlas-ezycharge.netlify.app/receipt?"></label>
+      </div>
+      <input type="submit" value="Checkout">
+    </form>
+    <script>    
+    // Get today's date in YYYY-MM-DD format
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('startdate').value = today;
+
+    const paymentTypeSelect = document.getElementById('chargetype');
+    const recurringOptions = document.getElementById('recurringOptions');
+    const frequencySelect = document.getElementById('transactionperiod');
+    const startDate = document.getElementById('startdate');
+    const paymentmethod = document.getElementById('paymentmethod');
+
+    paymentTypeSelect.addEventListener('change', function() {
+      if (this.value === 'recurring') {
+        recurringOptions.classList.remove('hidden');
+        recurringOptions.classList.add('form-group');
+        frequencySelect.required = true;
+        startDate.required = true;
+        startDate.value = today;
+        paymentmethod.required = true;
+      } else {
+        recurringOptions.classList.remove('form-group');
+        recurringOptions.classList.add('hidden');
+      }
+    });
+  </script>
+  </body>
+</html>
