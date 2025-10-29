@@ -191,7 +191,7 @@
         const hasPaymentId = ref_obj.paymentId && ref_obj.paymentId !== "undefined";
         const isPaymentSuccess = ref_obj.paymentStatus && ref_obj.paymentStatus.toLowerCase() === "payment approved";
 
-        if (hasValidAmount && hasPaymentId && isPaymentSuccess) {
+        if (hasValidAmount && isPaymentSuccess) {
           // Show success section
           document.getElementById("successUI").style.display = "block";
           if(hasPaymentId){
@@ -202,11 +202,7 @@
 
           document.getElementById("paymentResponse").innerHTML = ref_obj.paymentResponse;
 
-          if (ref_obj.retryURL) {
-            document.getElementById("retryBtn").style.display = "block";
-            document.querySelector("#retryBtn ul").innerHTML = "<li><a href='" + ref_obj.retryURL + "'>Retry Payment</a></li>";
-          }
-
+         
           if (ref_obj.installPeriod) {
             document.getElementById("period").style.display = "block";
             document.getElementById("installPeriod").innerHTML = ref_obj.installPeriod;
