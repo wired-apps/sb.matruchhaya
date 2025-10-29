@@ -223,7 +223,7 @@
           // Show error section
           document.getElementById("errorUI").style.display = "block";
           document.getElementById("paymentResponseErr").innerText = ref_obj.paymentResponse || "An unexpected error occurred.";
-
+          console.log(JSON.stringify(ref_obj));
           if (ref_obj.retryURL) {
             //document.querySelector("#retryBtn").innerHTML = "<ul><li><a href='" + ref_obj.retryURL + "'>Retry Payment</a></li></ul>";
             console.log(ref_obj.retryURL);
