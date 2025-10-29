@@ -3,7 +3,7 @@
   <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-      /* CSS styles for form elements */
+      /* CSS styles for form elements THIS CAN BE REMOVED, just for presentation purposes as there are too many fields */
       label {
         display: block;
         margin-top: 10px;
