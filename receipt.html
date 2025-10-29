@@ -173,7 +173,7 @@
       </div>
 
       <div id="retryBtn">
-        <ul></ul>
+        
       </div>
     </div>
   </div>
@@ -225,8 +225,8 @@
           document.getElementById("paymentResponseErr").innerText = ref_obj.paymentResponse || "An unexpected error occurred.";
 
           if (ref_obj.retryURL) {
-            document.getElementById("retryBtn").style.display = "block";
-            document.querySelector("#retryBtn ul").innerHTML = "<li><a href='" + ref_obj.retryURL + "'>Retry Payment</a></li>";
+            //document.querySelector("#retryBtn").innerHTML = "<ul><li><a href='" + ref_obj.retryURL + "'>Retry Payment</a></li></ul>";
+            document.getElementById("retryBtn").innerHTML = "<ul><li><a href='" + ref_obj.retryURL + "'>Retry Payment</a></li></ul>";
           }
         }
       } catch (error) {
