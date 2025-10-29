@@ -226,8 +226,7 @@
 
           if (ref_obj.retryURL) {
             //document.querySelector("#retryBtn").innerHTML = "<ul><li><a href='" + ref_obj.retryURL + "'>Retry Payment</a></li></ul>";
-            document.getElementById("retryBtn").innerHTML = "<ul><li><a href='" + ref_obj.retryURL + "'>Retry Payment</a></li></ul>";
-            console.log(JSON.stringify(document.getElementById("retryBtn").innerHTML));
+            document.getElementById('retryBtn').innerHTML = "<ul><li><a href='" + ref_obj.retryURL + "'>Retry Payment</a></li></ul>";
           }
         }
       } catch (error) {
